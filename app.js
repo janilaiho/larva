@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql = require('mysql');
+var fs = require('fs');
+var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -39,3 +42,21 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "fam",
+  password: "fam",
+  database: "larvafam"
+});
+
+con.connect(function(err) {
+ if (err) throw err;
+  console.log("Connected!");
+  con.query("SELECT laji, hinta FROM sirkat", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+	
+  });
+});
